@@ -1,8 +1,3 @@
-provider "google" {
-  credentials = file(var.service_account_path)
-  project = var.project
-  region = var.region
-}
 resource "random_string" "pi_random_string" {
   length = 5
   special = false
@@ -115,6 +110,7 @@ module "web_network_allow_ingress" {
   protocol = "tcp"
   source_ranges = ["0.0.0.0/0"]
   rule_name = "${var.prefix}-web-network-allow-ingress"
+  target_tags = []
   network = local.create_web_network_condition ? module.web_network_and_subnet.new_created_network_link : module.web_network_and_subnet.existing_network_link
 }
 

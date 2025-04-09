@@ -16,3 +16,6 @@ output "new_created_subnet_name" {
 output "existing_network_name" {
   value = data.google_compute_network.network_name[*].name
 }
+output "gateway_address" {
+  value = google_compute_subnetwork.subnetwork[0].gateway_address
+}

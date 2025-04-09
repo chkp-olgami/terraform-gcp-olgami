@@ -118,12 +118,12 @@ variable "region" {
   default = "us-central1"
 }
 
-variable "external_network_cidr" {
+variable "mgmt_network_cidr" {
   type = string
   description = "The range of external addresses that are owned by this network, only IPv4 is supported (e.g. \"10.0.0.0/8\" or \"192.168.0.0/16\")."
   default = "10.0.1.0/24"
 }
-variable "internal_network_cidr" {
+variable "data_network_cidr" {
   type = string
   description = "The range of internal addresses that are owned by this network, only IPv4 is supported (e.g. \"10.0.0.0/8\" or \"192.168.0.0/16\")."
   default = "10.0.2.0/24"
@@ -178,22 +178,22 @@ variable "instances_max_group_size" {
   description = "The maximal number of instances"
   default = 10
 }
-variable "external_network_name" {
+variable "mgmt_network_name" {
   type = string
   description = "The network determines what network traffic the instance can access"
   default = ""
 }
-variable "external_subnetwork_name" {
+variable "mgmt_subnetwork_name" {
   type = string
-  description = "Assigns the instance an IPv4 address from the subnetwork’s range. Instances in different subnetworks can communicate with each other using their internal IPs as long as they belong to the same network."
+  description = "Assigns the instance an IPv4 address from the subnetwork's range. Instances in different subnetworks can communicate with each other using their internal IPs as long as they belong to the same network."
 }
-variable "internal_network_name" {
+variable "data_network_name" {
   type = string
   description = "The network determines what network traffic the instance can access"
 }
-variable "internal_subnetwork_name" {
+variable "data_subnetwork_name" {
   type = string
-  description = "Assigns the instance an IPv4 address from the subnetwork’s range. Instances in different subnetworks can communicate with each other using their internal IPs as long as they belong to the same network."
+  description = "Assigns the instance an IPv4 address from the subnetwork's range. Instances in different subnetworks can communicate with each other using their internal IPs as long as they belong to the same network."
 }
 variable "disk_type" {
   type = string

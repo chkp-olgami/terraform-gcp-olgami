@@ -19,7 +19,7 @@ variable "image_name" {
 locals {
   regex_validate_mgmt_image_name = "^check-point-${lower(var.os_version)}-[^(gw)].*[0-9]{3}-([0-9]{3,}|[a-z]+)-v[0-9]{8,}.*"
   regex_validate_gw_image_name = "^check-point-${lower(var.os_version)}-gw-.*[0-9]{3}-([0-9]{3,}|[a-z]+)-v[0-9]{8,}.*"
-  regex_validate_image_name = contains(["Gateway only", "Cluster", "AutoScale"], var.installation_type) ? local.regex_validate_gw_image_name : local.regex_validate_mgmt_image_name
+  regex_validate_image_name = contains(["Gateway only", "Cluster", "AutoScale", "Packet Intercept"], var.installation_type) ? local.regex_validate_gw_image_name : local.regex_validate_mgmt_image_name
   regex_image_name = length(regexall(local.regex_validate_image_name, var.image_name)) > 0 ? 0 : "Variable [image_name] must be a valid Check Point image name of the correct version."
   index_image_name = index(["0"], local.regex_image_name)
 }

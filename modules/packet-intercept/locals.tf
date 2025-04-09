@@ -1,6 +1,6 @@
 locals{
-    create_external_network_condition = var.external_network_cidr == "" ? false : true
-    create_internal_network_condition = var.internal_network_cidr == "" ? false : true
+    create_mgmt_network_condition = var.mgmt_network_cidr == "" ? false : true
+    create_data_network_condition = var.data_network_cidr == "" ? false : true
     create_web_network_condition = var.web_network_cidr == "" ? false : true
     ICMP_traffic_condition = length(var.ICMP_traffic) == 0 ? false : true
     TCP_traffic_condition = length(var.TCP_traffic) == 0 ? false : true

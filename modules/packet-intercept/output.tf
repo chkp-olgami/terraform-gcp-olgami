@@ -1,14 +1,14 @@
-output "external_network_name" {
-  value = module.external_network_and_subnet.new_created_network_name
+output "mgmt_network_name" {
+  value = module.mgmt_network_and_subnet.new_created_network_name
 }
-output "external_subnetwork_name" {
-  value = module.external_network_and_subnet.new_created_subnet_name
+output "mgmt_subnetwork_name" {
+  value = module.mgmt_network_and_subnet.new_created_subnet_name
 }
-output "internal_network_name" {
-  value = module.internal_network_and_subnet.new_created_network_name
+output "data_network_name" {
+  value = module.data_network_and_subnet.new_created_network_name
 }
-output "internal_subnetwork_name" {
-  value = module.internal_network_and_subnet.new_created_subnet_name
+output "data_subnetwork_name" {
+  value = module.data_network_and_subnet.new_created_subnet_name
 }
 output "network_ICMP_firewall_rule" {
   value = module.network_ICMP_firewall_rules[*].firewall_rule_name

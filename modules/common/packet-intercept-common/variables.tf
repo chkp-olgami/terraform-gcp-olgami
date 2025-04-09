@@ -102,23 +102,23 @@ data "google_compute_zones" "available_zones" {
   region = var.region
 }
 
-variable "external_network" {
+variable "mgmt_network" {
   type = list(string)
   description = "The network determines what network traffic the instance can access"
   default = ["default"]
 }
-variable "external_subnetwork" {
+variable "mgmt_subnetwork" {
   type = list(string)
   description = "The subnetwork determines what network traffic the instance can access"
   default = ["default"]
 }
 
-variable "internal_network" {
+variable "data_network" {
   type = list(string)
   description = "The network determines what network traffic the instance can access"
   default = ["default"]
 }
-variable "internal_subnetwork" {
+variable "data_subnetwork" {
   type = list(string)
   description = "The subnetwork determines what network traffic the instance can access"
   default = ["default"]

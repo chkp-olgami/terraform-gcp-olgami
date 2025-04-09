@@ -46,8 +46,8 @@ resource "google_compute_instance_template" "instance_template" {
   }
 
   network_interface {
-    network = var.external_network[0]
-    subnetwork = var.external_subnetwork[0]
+    network = var.mgmt_network[0]
+    subnetwork = var.mgmt_subnetwork[0]
     dynamic "access_config" {
       for_each = local.mgmt_nic_condition ? [
         1] : []
@@ -58,8 +58,8 @@ resource "google_compute_instance_template" "instance_template" {
   }
 
   network_interface {
-    network = var.internal_network[0]
-    subnetwork = var.internal_subnetwork[0]
+    network = var.data_network[0]
+    subnetwork = var.data_subnetwork[0]
   }
 
   scheduling {
@@ -104,7 +104,7 @@ resource "google_compute_instance_template" "instance_template" {
     config_path = ""
     sicKey = ""
     allowUploadDownload = var.allow_upload_download
-    templateName = "autoscale_tf"
+    templateName = "packet_intercept_tf"
     templateVersion = "20230910"
     templateType = "terraform"
     mgmtNIC = var.management_nic
@@ -155,8 +155,8 @@ module "load_balancer" {
   source = "../internal-load-balancer"
   project = var.project
   prefix = var.prefix
-  network = var.internal_network[0]
-  subnetwork = var.internal_subnetwork[0]
+  network = var.data_network[0]
+  subnetwork = var.data_subnetwork[0]
   region = var.region
   protocol = "UDP"
   ip_protocol = "UDP"
@@ -169,7 +169,7 @@ resource "google_network_security_intercept_deployment_group" "network_security_
   project                       = var.project
   intercept_deployment_group_id = "${var.prefix}-intercept-deployment-group"
   location                      = "global"
-  network                       = var.internal_network[0]
+  network                       = var.data_network[0]
 }
 
 resource "google_network_security_intercept_deployment" "network_security_intercept_deployment" {

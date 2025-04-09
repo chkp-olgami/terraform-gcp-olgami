@@ -12,7 +12,7 @@ resource "random_string" "random_string" {
 }
 module "common" {
   source = "../common/common"
-  installation_type = "AutoScale"
+  installation_type = "Packet Intercept"
   os_version = var.os_version
   image_name = var.image_name
   admin_shell = var.admin_shell
@@ -20,23 +20,23 @@ module "common" {
   admin_SSH_key = var.admin_SSH_key
 }
 
-module "external_network_and_subnet" {
+module "mgmt_network_and_subnet" {
     source = "../common/network-and-subnet"
-    prefix = "${var.prefix}-ext-network-${random_string.pi_random_string.result}"
-    type = "autoscale"
-    network_cidr = var.external_network_cidr
+    prefix = "${var.prefix}-mgmt-network-${random_string.pi_random_string.result}"
+    type = "pi"
+    network_cidr = var.mgmt_network_cidr
     private_ip_google_access = true
     region = var.region
-    network_name = var.external_network_name
+    network_name = var.mgmt_network_name
 }
-module "internal_network_and_subnet" {
+module "data_network_and_subnet" {
     source = "../common/network-and-subnet"
-    prefix = "${var.prefix}-int-network-${random_string.pi_random_string.result}"
-    type = "autoscale"
-    network_cidr = var.internal_network_cidr
+    prefix = "${var.prefix}-data-network-${random_string.pi_random_string.result}"
+    type = "pi"
+    network_cidr = var.data_network_cidr
     private_ip_google_access = true
     region = var.region
-    network_name = var.internal_network_name
+    network_name = var.data_network_name
 }
 
 module "web_network_and_subnet" {
@@ -55,7 +55,7 @@ module "network_ICMP_firewall_rules" {
   protocol = "icmp"
   source_ranges = var.ICMP_traffic
   rule_name = "${var.prefix}-icmp-${random_string.random_string.result}"
-  network = local.create_external_network_condition ? module.external_network_and_subnet.new_created_network_link : module.external_network_and_subnet.existing_network_link
+  network = local.create_mgmt_network_condition ? module.mgmt_network_and_subnet.new_created_network_link : module.mgmt_network_and_subnet.existing_network_link
 }
 module "network_TCP_firewall_rules" {
   count = local.TCP_traffic_condition == true ? 1 :0
@@ -63,7 +63,7 @@ module "network_TCP_firewall_rules" {
   protocol = "tcp"
   source_ranges = var.TCP_traffic
   rule_name = "${var.prefix}-tcp-${random_string.random_string.result}"
-  network = local.create_external_network_condition ? module.external_network_and_subnet.new_created_network_link : module.external_network_and_subnet.existing_network_link
+  network = local.create_mgmt_network_condition ? module.mgmt_network_and_subnet.new_created_network_link : module.mgmt_network_and_subnet.existing_network_link
 }
 module "network_UDP_firewall_rules" {
   count = local.UDP_traffic_condition == true ? 1 :0
@@ -71,7 +71,7 @@ module "network_UDP_firewall_rules" {
   protocol = "udp"
   source_ranges = var.UDP_traffic
   rule_name = "${var.prefix}-udp-${random_string.random_string.result}"
-  network = local.create_external_network_condition ? module.external_network_and_subnet.new_created_network_link : module.external_network_and_subnet.existing_network_link
+  network = local.create_mgmt_network_condition ? module.mgmt_network_and_subnet.new_created_network_link : module.mgmt_network_and_subnet.existing_network_link
 }
 module "network_SCTP_firewall_rules" {
   count = local.SCTP_traffic_condition == true ? 1 :0
@@ -79,7 +79,7 @@ module "network_SCTP_firewall_rules" {
   protocol = "sctp"
   source_ranges = var.UDP_traffic
   rule_name = "${var.prefix}-sctp-${random_string.random_string.result}"
-  network = local.create_external_network_condition ? module.external_network_and_subnet.new_created_network_link : module.external_network_and_subnet.existing_network_link
+  network = local.create_mgmt_network_condition ? module.mgmt_network_and_subnet.new_created_network_link : module.mgmt_network_and_subnet.existing_network_link
 }
 module "network_ESP_firewall_rules" {
   count = local.ESP_traffic_condition == true ? 1 :0
@@ -87,31 +87,7 @@ module "network_ESP_firewall_rules" {
   protocol = "esp"
   source_ranges = var.ESP_traffic
   rule_name = "${var.prefix}-esp-${random_string.random_string.result}"
-  network = local.create_external_network_condition ? module.external_network_and_subnet.new_created_network_link : module.external_network_and_subnet.existing_network_link
-}
-module "mgmt_network_allow_ingress" {
-  source = "../common/firewall-rule"
-  protocol = "tcp"
-  source_ranges = ["0.0.0.0/0"]
-  ports = ["443", "22", "3978"]
-  rule_name = "${var.prefix}-mgmt-network-allow-ingress"
-  network = local.create_external_network_condition ? module.external_network_and_subnet.new_created_network_link : module.external_network_and_subnet.existing_network_link
-}
-module "internal_network_allow_ingress" {
-  source = "../common/firewall-rule"
-  protocol = "tcp"
-  source_ranges = ["0.0.0.0/0"]
-  rule_name = "${var.prefix}-internal-network-allow-ingress"
-  network = local.create_internal_network_condition ? module.internal_network_and_subnet.new_created_network_link : module.internal_network_and_subnet.existing_network_link
-}
-
-module "web_network_allow_ingress" {
-  source = "../common/firewall-rule"
-  protocol = "tcp"
-  source_ranges = ["0.0.0.0/0"]
-  rule_name = "${var.prefix}-web-network-allow-ingress"
-  target_tags = []
-  network = local.create_web_network_condition ? module.web_network_and_subnet.new_created_network_link : module.web_network_and_subnet.existing_network_link
+  network = local.create_mgmt_network_condition ? module.mgmt_network_and_subnet.new_created_network_link : module.mgmt_network_and_subnet.existing_network_link
 }
 
 module "packet-intercept" {
@@ -138,10 +114,10 @@ module "packet-intercept" {
 
   # --- Networking ---
   region = var.region
-  external_network = local.create_external_network_condition ? module.external_network_and_subnet.new_created_network_link : module.external_network_and_subnet.existing_network_link
-  external_subnetwork  = local.create_external_network_condition ? module.external_network_and_subnet.new_created_subnet_link : [var.external_subnetwork_name]
-  internal_network = local.create_internal_network_condition ? module.internal_network_and_subnet.new_created_network_link : module.internal_network_and_subnet.existing_network_link
-  internal_subnetwork = local.create_internal_network_condition ? module.internal_network_and_subnet.new_created_subnet_link : [var.internal_subnetwork_name]
+  mgmt_network = local.create_mgmt_network_condition ? module.mgmt_network_and_subnet.new_created_network_link : module.mgmt_network_and_subnet.existing_network_link
+  mgmt_subnetwork  = local.create_mgmt_network_condition ? module.mgmt_network_and_subnet.new_created_subnet_link : [var.mgmt_subnetwork_name]
+  data_network = local.create_data_network_condition ? module.data_network_and_subnet.new_created_network_link : module.data_network_and_subnet.existing_network_link
+  data_subnetwork = local.create_data_network_condition ? module.data_network_and_subnet.new_created_subnet_link : [var.data_subnetwork_name]
   web_network = local.create_web_network_condition ? module.web_network_and_subnet.new_created_network_link : module.web_network_and_subnet.existing_network_link
   web_subnetwork = local.create_web_network_condition ? module.web_network_and_subnet.new_created_subnet_link : [var.web_subnetwork_name]
   ICMP_traffic = var.ICMP_traffic

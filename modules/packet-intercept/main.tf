@@ -90,6 +90,15 @@ module "network_ESP_firewall_rules" {
   network = local.create_mgmt_network_condition ? module.mgmt_network_and_subnet.new_created_network_link : module.mgmt_network_and_subnet.existing_network_link
 }
 
+module "data_network_allow_udp_6081_firewall" {
+  source = "../common/firewall-rule"
+  protocol = "udp"
+  source_ranges = [module.data_network_and_subnet.gateway_address]
+  ports = ["6081"]
+  rule_name = "${var.prefix}-data-network-allow-udp-6081"
+  network = local.create_data_network_condition ? module.data_network_and_subnet.new_created_network_link : module.data_network_and_subnet.existing_network_link
+}
+
 module "packet-intercept" {
   source = "../common/packet-intercept-common"
 

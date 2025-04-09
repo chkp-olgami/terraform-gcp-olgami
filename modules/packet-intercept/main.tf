@@ -96,6 +96,7 @@ module "data_network_allow_udp_6081_firewall" {
   source_ranges = [module.data_network_and_subnet.gateway_address]
   ports = ["6081"]
   rule_name = "${var.prefix}-data-network-allow-udp-6081"
+  target_tags = []
   network = local.create_data_network_condition ? module.data_network_and_subnet.new_created_network_link : module.data_network_and_subnet.existing_network_link
 }
 

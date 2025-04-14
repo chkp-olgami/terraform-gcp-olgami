@@ -118,6 +118,20 @@ variable "region" {
   default = "us-central1"
 }
 
+data "google_compute_zones" "available_zones" {
+  region = var.region
+}
+
+variable "intercept_deployment_zone" {
+  type = string
+  description = "The zone where the network security intercept deployment will be deployed. The zone must be in the same region as the deployment."
+  default = "us-central1-a"
+  validation {
+    condition = contains(data.google_compute_zones.available_zones.names, var.intercept_deployment_zone)
+    error_message = "The specified zone is not available in the selected region. Please choose a zone within region ${var.region}."
+  }
+}
+
 variable "mgmt_network_cidr" {
   type = string
   description = "The range of external addresses that are owned by this network, only IPv4 is supported (e.g. \"10.0.0.0/8\" or \"192.168.0.0/16\")."

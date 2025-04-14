@@ -175,7 +175,7 @@ resource "google_network_security_intercept_deployment_group" "network_security_
 resource "google_network_security_intercept_deployment" "network_security_intercept_deployment" {
   provider                   = google-beta
   intercept_deployment_id    = "${var.prefix}-intercept-deployment"
-  location                   = data.google_compute_zones.available_zones.names[0]
+  location                   = var.intercept_deployment_zone
   project                    = var.project 
   forwarding_rule            = module.load_balancer.forwarding_rule
   intercept_deployment_group = google_network_security_intercept_deployment_group.network_security_intercept_deployment_group.id

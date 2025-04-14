@@ -97,11 +97,11 @@ variable "region" {
   type = string
   default = "us-central1"
 }
-
-data "google_compute_zones" "available_zones" {
-  region = var.region
+variable "intercept_deployment_zone" {
+  type = string
+  description = "The zone where the network security intercept deployment will be deployed. The zone must be in the same region as the deployment."
+  default = "us-central1-a"
 }
-
 variable "mgmt_network" {
   type = list(string)
   description = "The network determines what network traffic the instance can access"

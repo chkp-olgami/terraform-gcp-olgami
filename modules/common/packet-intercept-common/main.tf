@@ -7,11 +7,11 @@ locals{
     admin_SSH_key_condition = var.admin_SSH_key != "" ? true : false
     disk_type_condition = var.disk_type == "SSD Persistent Disk" ? "pd-ssd" : var.disk_type == "Standard Persistent Disk" ? "pd-standard" : ""
 }
-provider "google" {
-  credentials = file(var.service_account_path)
-  project = var.project
-  region = var.region
-}
+# provider "google" {
+#   credentials = file(var.service_account_path)
+#   project = var.project
+#   region = var.region
+# }
 provider "google-beta" {
   credentials = file(var.service_account_path)
   project = var.project

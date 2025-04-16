@@ -26,7 +26,7 @@ variable "organization_id" {
 variable "prefix" {
   type = string
   description = "(Optional) Resources name prefix"
-  default = "chkp-tf-mig"
+  default = "chkp-tf-pi"
 }
 variable "license" {
   type = string

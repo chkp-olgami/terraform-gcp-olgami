@@ -18,7 +18,7 @@ This repository provides a structured set of Terraform modules for deploying Che
 
  
 **Submodules:**
-* [`packet-intercep`](https://registry.terraform.io/modules/chkp-olgami/olgami/gcp/latest/submodules/packet-intercept) - Deploys GCP Packet Intercept.
+* [`packet-intercept`](https://registry.terraform.io/modules/chkp-olgami/olgami/gcp/latest/submodules/packet-intercept) - Deploys GCP Packet Intercept.
 
 Internal Submodules - 
 

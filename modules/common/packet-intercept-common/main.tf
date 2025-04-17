@@ -157,6 +157,7 @@ module "load_balancer" {
   ip_protocol = "UDP"
   ports = [6081]
   instance_group = google_compute_region_instance_group_manager.instance_group_manager.instance_group
+  intercept_deployment_zones = var.intercept_deployment_zones 
 }
 
 resource "google_network_security_intercept_deployment_group" "network_security_intercept_deployment_group" {

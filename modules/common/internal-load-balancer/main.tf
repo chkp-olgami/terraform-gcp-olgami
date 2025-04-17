@@ -19,7 +19,8 @@ resource "google_compute_region_backend_service" "backend_service" {
 }
 
 resource "google_compute_forwarding_rule" "forwarding_rule" {
-  name                  = "${var.prefix}-forwarding-rule"
+  for_each              = toset(var.intercept_deployment_zones)
+  name                  = "${var.prefix}-forwarding-rule-${each.key}"
   project               = var.project
   region                = var.region
   load_balancing_scheme = "INTERNAL"

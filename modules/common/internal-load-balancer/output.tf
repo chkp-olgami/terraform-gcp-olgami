@@ -1,3 +1,3 @@
 output "forwarding_rule" {
-  value = google_compute_forwarding_rule.forwarding_rule.self_link
+  value = { for key, rule in google_compute_forwarding_rule.forwarding_rule : key => rule.self_link }
 }

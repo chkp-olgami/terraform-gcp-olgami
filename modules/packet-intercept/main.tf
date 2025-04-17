@@ -132,7 +132,7 @@ module "packet-intercept" {
 
   # --- Networking ---
   region = var.region
-  intercept_deployment_zone = var.intercept_deployment_zone
+  intercept_deployment_zones = var.intercept_deployment_zones
   mgmt_network = local.create_mgmt_network_condition ? module.mgmt_network_and_subnet.new_created_network_link : module.mgmt_network_and_subnet.existing_network_link
   mgmt_subnetwork  = local.create_mgmt_network_condition ? module.mgmt_network_and_subnet.new_created_subnet_link : [var.mgmt_subnetwork_name]
   data_network = local.create_data_network_condition ? module.data_network_and_subnet.new_created_network_link : module.data_network_and_subnet.existing_network_link

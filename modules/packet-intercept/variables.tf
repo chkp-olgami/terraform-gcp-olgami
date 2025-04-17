@@ -122,13 +122,16 @@ data "google_compute_zones" "available_zones" {
   region = var.region
 }
 
-variable "intercept_deployment_zone" {
-  type = string
-  description = "The zone where the network security intercept deployment will be deployed. The zone must be in the same region as the deployment."
-  default = "us-central1-a"
+variable "intercept_deployment_zones" {
+  type = list(string)
+  description = "The list of zones for which a network security intercept deployment will be deployed. The zones must be in the same region as the deployment."
+  default = ["us-central1-a"]
   validation {
-    condition = contains(data.google_compute_zones.available_zones.names, var.intercept_deployment_zone)
-    error_message = "The specified zone is not available in the selected region. Please choose a zone within region ${var.region}."
+    condition = length([
+      for zone in var.intercept_deployment_zones : 
+      zone if contains(data.google_compute_zones.available_zones.names, zone)
+    ]) == length(var.intercept_deployment_zones)
+    error_message = "One or more specified zones are not available in the selected region ${var.region}. Please choose zones within this region."
   }
 }
 

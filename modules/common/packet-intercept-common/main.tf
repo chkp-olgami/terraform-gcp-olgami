@@ -169,10 +169,11 @@ resource "google_network_security_intercept_deployment_group" "network_security_
 
 resource "google_network_security_intercept_deployment" "network_security_intercept_deployment" {
   provider                   = google-beta
-  intercept_deployment_id    = "${var.prefix}-intercept-deployment"
-  location                   = var.intercept_deployment_zone
+  for_each                   = toset(var.intercept_deployment_zones)
+  intercept_deployment_id    = "${var.prefix}-intercept-deployment-${each.key}"
+  location                   = each.key
   project                    = var.project 
-  forwarding_rule            = module.load_balancer.forwarding_rule
+  forwarding_rule            = module.load_balancer.forwarding_rule[each.key]
   intercept_deployment_group = google_network_security_intercept_deployment_group.network_security_intercept_deployment_group.id
 }
 

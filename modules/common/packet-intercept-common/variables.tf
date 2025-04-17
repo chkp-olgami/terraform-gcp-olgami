@@ -97,10 +97,10 @@ variable "region" {
   type = string
   default = "us-central1"
 }
-variable "intercept_deployment_zone" {
-  type = string
-  description = "The zone where the network security intercept deployment will be deployed. The zone must be in the same region as the deployment."
-  default = "us-central1-a"
+variable "intercept_deployment_zones" {
+  type = list(string)
+  description = "The list of zones for which a network security intercept deployment will be deployed. The zones must be in the same region as the deployment."
+  default = ["us-central1-a"]
 }
 variable "mgmt_network" {
   type = list(string)

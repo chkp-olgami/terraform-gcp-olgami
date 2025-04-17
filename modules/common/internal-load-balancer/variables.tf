@@ -48,3 +48,9 @@ variable "instance_group" {
   description = "The name or self_link of the instance group"
   type        = string
 }
+
+variable "intercept_deployment_zones" {
+  type = list(string)
+  description = "The list of zones for which a network security intercept deployment will be deployed. The zones must be in the same region as the deployment."
+  default = ["us-central1-a"]
+}

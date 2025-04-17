@@ -106,7 +106,7 @@ resource "google_compute_instance_template" "instance_template" {
     hasInternet = "false"
     enableMonitoring = var.enable_monitoring
     shell = var.admin_shell
-    installation_type = "AutoScale"
+    installation_type = "gwlb"
     computed_sic_key = var.sic_key
     managementGUIClientNetwork = ""
     primary_cluster_address_name = ""

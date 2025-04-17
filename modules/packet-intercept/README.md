@@ -170,6 +170,6 @@ Please leave empty list for a protocol if you want to disable traffic for it.
 | cpu_usage | Target CPU usage (%) - Autoscaling adds or removes instances in the group to maintain this level of CPU usage on each instance. | number | number between 10 and 90 | 60 | no |
 | instances_min_group_size | The minimal number of instances | number | N/A | 2 | no |
 | instances_max_group_size | The maximal number of instances | number | N/A | 10 | no |
-| disk_type | Storage space is much less expensive for a standard Persistent Disk. An SSD Persistent Disk is better for random IOPS or streaming throughput with low latency. | string | - SSD Persistent Disk <br/> - Balanced Persistent Disk <br/> - Standard Persistent Disk | "SSD Persistent Disk" | no |
+| disk_type | Storage space is much less expensive for a standard Persistent Disk. An SSD Persistent Disk is better for random IOPS or streaming throughput with low latency. | string | SSD Persistent Disk <br/> Balanced Persistent Disk <br/> Standard Persistent Disk | "SSD Persistent Disk" | no |
 | disk_size | Disk size in GB - Persistent disk performance is tied to the size of the persistent disk volume. You are charged for the actual amount of provisioned disk space. | number | number between 100 and 4096 | 100 | no |
-| enable_monitoring | Enable Stackdriver monitoring | bool | true/false | false | no |
+| enable_monitoring | Enable Stackdriver monitoring | bool | true <br/> false | false | no |

@@ -74,7 +74,7 @@ module "pi-test" {
     sic_key                           = "xxxxxxxxxxxx"
 
     # --- Networking ---
-    intercept_deployment_zone         = "us-central1-a"
+    intercept_deployment_zones         = ["us-central1-a"]
     region                            = "us-central1"
     mgmt_network_name                 = ""          
     mgmt_subnetwork_name              = ""      
@@ -151,7 +151,7 @@ Please leave empty list for a protocol if you want to disable traffic for it.
 | admin_shell | Change the admin shell to enable advanced command line configuration. | string | /etc/cli.sh <br/> /bin/bash <br/> /bin/csh <br/> /bin/tcsh | "/etc/cli.sh" | no |
 | allow_upload_download | Automatically download Blade Contracts and other important data. Improve product experience by sending data to Check Point | bool | true/false | true | no |
 | region  | GCP region, the gateways will randomly deployed in zones within the provided region  | string  | N/A | "us-central1"  | no |
-| intercept_deployment_zone  | The zone where the **intercept deployment** will be deployed. Ensure that the web VM is created in the same zone. | string  | N/A | "us-central1-a"  | no |
+| intercept_deployment_zones | The zones where the **intercept deployment** will be deployed. Ensure that the web VMs are created in these zones. | list(string)  | N/A | "us-central1-a"  | no |
 | mgmt_network_name | The network determines what network traffic the instance can access. | string | N/A | N/A | yes |
 | mgmt_subnetwork_name | Assigns the instance an IPv4 address from the subnetwork’s range. Instances in different subnetworks can communicate with each other using their internal IPs as long as they belong to the same network. | string | N/A | N/A | yes |
 | mgmt_network_cidr | The range of internal addresses that are owned by this network, only IPv4 is supported (e.g. "10.0.0.0/8" or "192.168.0.0/16"). | string | N/A |"10.0.1.0/24" | no|
